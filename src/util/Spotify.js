@@ -1,5 +1,4 @@
-const clientId = 'REMOVED TO PUBlISH TO GITHUB';
-const redirectUri = 'https://dwpdxjamming.surge.sh/';
+const clientId = 'REMOVED FOR GITHUB';
 
 let userAccessToken;
 let expiresIn;
@@ -23,9 +22,19 @@ const Spotify = {
         window.history.pushState('Access Token', null, '/');
         return userAccessToken;
       } else {
-        let targetUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`;
+        let targetUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${this.getRedirectUri()}`;
         window.location.href = targetUrl;
       }
+    }
+  },
+
+  getRedirectUri() {
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      console.log('Development');
+      return 'http://localhost:3000/';
+    } else {
+      console.log('Production');
+      return 'https://dwpdxjamming.surge.sh/';
     }
   },
 
